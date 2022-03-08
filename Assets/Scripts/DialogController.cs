@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogController : MonoBehaviour
 {
-    [SerializeField] float dialogSpeed = 0.05f;
+    [SerializeField] float dialogSpeed;
     [SerializeField] Image avatar;
     [SerializeField] TextMeshProUGUI textComponent;
     [SerializeField] GameObject nextIcon;
@@ -15,6 +17,8 @@ public class DialogController : MonoBehaviour
     TMP_TextInfo textInfo;
     int dialogIndex = 0;
     bool dialogFinished;
+    float charSpeedAnimation = 0.2f;
+    Vector3 charPositionAnimation = Vector3.up * 20;
 
     void Start()
     {
@@ -37,9 +41,10 @@ public class DialogController : MonoBehaviour
         textComponent.text = dialogs[dialogIndex].sentence;
         avatar.sprite = dialogs[dialogIndex].avatar;
 
+        textComponent.ForceMeshUpdate();
+
         // Save original color of each vertice and set to transparent
 
-        textComponent.ForceMeshUpdate();
         var originalMeshInfo = new List<List<Color32>>();
 
         for (int i = 0; i < textInfo.meshInfo.Length; i++)
@@ -49,11 +54,14 @@ public class DialogController : MonoBehaviour
             for (int j = 0; j < textInfo.meshInfo[i].colors32.Length; j++)
             {
                 originalMeshInfo[i].Add(textInfo.meshInfo[i].colors32[j]);
-                textInfo.meshInfo[i].colors32[j] = Color.clear;
+                textInfo.meshInfo[i].colors32[j] = new Color(
+                    textInfo.meshInfo[i].colors32[j].r,
+                    textInfo.meshInfo[i].colors32[j].g,
+                    textInfo.meshInfo[i].colors32[j].b,
+                    0
+                );
             }
         }
-
-        textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
 
         // Set to original colors in each time
 
@@ -61,16 +69,49 @@ public class DialogController : MonoBehaviour
         {
             if (!charInfo.isVisible)
                 continue;
-            
+
             var vertexColors = textInfo.meshInfo[charInfo.materialReferenceIndex].colors32;
+            var vertexPosition = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
 
             for (int j = 0; j < 4; j++)
             {
-                vertexColors[charInfo.vertexIndex + j] =
-                    originalMeshInfo[charInfo.materialReferenceIndex][charInfo.vertexIndex + j];
+                var vertexIndex = charInfo.vertexIndex + j;
+
+                DOTween.To(
+                    () => vertexColors[vertexIndex],
+                    x =>
+                    {
+                        vertexColors[vertexIndex] = x;
+                        textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
+                    },
+                    originalMeshInfo[charInfo.materialReferenceIndex][vertexIndex],
+                    charSpeedAnimation
+                ).SetEase(Ease.Linear);
+
+                DOTween.To(
+                    () => vertexPosition[vertexIndex] + charPositionAnimation,
+                    x =>
+                    {
+                        vertexPosition[vertexIndex] = x;
+                        textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
+                    },
+                    vertexPosition[vertexIndex],
+                    charSpeedAnimation
+                ).SetEase(Ease.OutQuad);
             }
 
-            textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
+            if (charInfo.character == ',')
+            {
+                yield return new WaitForSeconds(0.18f);
+                continue;
+            }
+
+            if (Regex.IsMatch(charInfo.character.ToString(), @"[\!?]"))
+            {
+                yield return new WaitForSeconds(0.3f);
+                continue;
+            }
+
             yield return new WaitForSeconds(dialogSpeed);
         }
 
