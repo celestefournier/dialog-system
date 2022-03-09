@@ -255,7 +255,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Marceline,
+  m_text: '<color=red>Marceline</color>,
 
     toma sua camisa de Rock...'
   m_isRightToLeft: 0
@@ -673,11 +673,11 @@ MonoBehaviour:
   nextIcon: {fileID: 463909461}
   dialogs:
   - avatar: {fileID: 21300000, guid: 7fbc5aefcc9b7a547b0cef9ce94b370b, type: 3}
-    sentence: 'Marceline,
+    sentence: '<color=red>Marceline</color>,
 
       toma sua camisa de Rock...'
   - avatar: {fileID: 21300000, guid: 2a1ad97f642c1054abffe328dc05fd7c, type: 3}
-    sentence: "N\xE3o \xE9 minha n\xE3o."
+    sentence: "<size=150%>N\xE3o</size> \xE9 minha n\xE3o."
   - avatar: {fileID: 21300000, guid: 03603400fa1706e4cb4f5df31794a670, type: 3}
     sentence: "\xC9 minha!\n\xC9 minha!"
   - avatar: {fileID: 21300000, guid: dd972dc21677b7349b506cd297943774, type: 3}

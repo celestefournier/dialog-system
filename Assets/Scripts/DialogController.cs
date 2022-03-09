@@ -65,10 +65,9 @@ public class DialogController : MonoBehaviour
 
         // Set to original colors in each time
 
-        foreach (var charInfo in textInfo.characterInfo)
+        for (int i = 0; i < textInfo.characterCount; i++)
         {
-            if (charInfo.index >= textInfo.characterCount)
-                break;
+            var charInfo = textInfo.characterInfo[i];
 
             if (!charInfo.isVisible)
                 continue;
