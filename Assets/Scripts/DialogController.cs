@@ -67,6 +67,9 @@ public class DialogController : MonoBehaviour
 
         foreach (var charInfo in textInfo.characterInfo)
         {
+            if (charInfo.index >= textInfo.characterCount)
+                break;
+
             if (!charInfo.isVisible)
                 continue;
 
