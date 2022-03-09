@@ -17,8 +17,8 @@ public class DialogController : MonoBehaviour
     TMP_TextInfo textInfo;
     int dialogIndex = 0;
     bool dialogFinished;
-    float charSpeedAnimation = 0.2f;
-    Vector3 charPositionAnimation = Vector3.up * 20;
+    float charSpeedAnimation = 0.15f;
+    Vector3 charPositionAnimation = Vector3.up * 15;
 
     void Start()
     {
@@ -97,12 +97,12 @@ public class DialogController : MonoBehaviour
                     },
                     vertexPosition[vertexIndex],
                     charSpeedAnimation
-                ).SetEase(Ease.OutQuad);
+                ).SetEase(Ease.OutSine);
             }
 
             if (charInfo.character == ',')
             {
-                yield return new WaitForSeconds(0.18f);
+                yield return new WaitForSeconds(0.2f);
                 continue;
             }
 
