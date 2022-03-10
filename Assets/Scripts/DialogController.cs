@@ -54,7 +54,7 @@ public class DialogController : MonoBehaviour
             for (int j = 0; j < textInfo.meshInfo[i].colors32.Length; j++)
             {
                 originalMeshInfo[i].Add(textInfo.meshInfo[i].colors32[j]);
-                textInfo.meshInfo[i].colors32[j] = new Color(
+                textInfo.meshInfo[i].colors32[j] = new Color32(
                     textInfo.meshInfo[i].colors32[j].r,
                     textInfo.meshInfo[i].colors32[j].g,
                     textInfo.meshInfo[i].colors32[j].b,
