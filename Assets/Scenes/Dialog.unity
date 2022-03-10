@@ -134,8 +134,9 @@ GameObject:
   - component: {fileID: 463909462}
   - component: {fileID: 463909464}
   - component: {fileID: 463909463}
+  - component: {fileID: 463909465}
   m_Layer: 5
-  m_Name: Next
+  m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -30, y: 30}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -57, y: 55}
+  m_SizeDelta: {x: 45, y: 33}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &463909463
 MonoBehaviour:
@@ -173,14 +174,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.77254903}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: f9120382c826a5c4d840e9035c595da9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -198,6 +199,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463909461}
   m_CullTransparentMesh: 1
+--- !u!114 &463909465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463909461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa902d87c76dd7449e5c95de3071d16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &671944201
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +683,7 @@ MonoBehaviour:
   dialogSpeed: 0.03
   avatar: {fileID: 1439204063}
   textComponent: {fileID: 671944203}
-  nextIcon: {fileID: 463909461}
+  arrowIcon: {fileID: 463909465}
   dialogs:
   - avatar: {fileID: 21300000, guid: 7fbc5aefcc9b7a547b0cef9ce94b370b, type: 3}
     sentence: '<color=#ff1d1d>Marceline</color>,

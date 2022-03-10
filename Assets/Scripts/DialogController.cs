@@ -11,7 +11,7 @@ public class DialogController : MonoBehaviour
     [SerializeField] float dialogSpeed;
     [SerializeField] Image avatar;
     [SerializeField] TextMeshProUGUI textComponent;
-    [SerializeField] GameObject nextIcon;
+    [SerializeField] ArrowVfx arrowIcon;
     [SerializeField] Dialog[] dialogs;
 
     TMP_TextInfo textInfo;
@@ -37,7 +37,7 @@ public class DialogController : MonoBehaviour
     IEnumerator Type()
     {
         dialogFinished = false;
-        nextIcon.SetActive(false);
+        arrowIcon.Hide();
         textComponent.text = dialogs[dialogIndex].sentence;
         avatar.sprite = dialogs[dialogIndex].avatar;
 
@@ -120,7 +120,7 @@ public class DialogController : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
 
         dialogFinished = true;
-        nextIcon.SetActive(true);
+        arrowIcon.Show();
         dialogIndex++;
     }
 }
