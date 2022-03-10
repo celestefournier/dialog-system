@@ -23,7 +23,7 @@ public class DialogController : MonoBehaviour
     void Start()
     {
         textInfo = textComponent.textInfo;
-        StartCoroutine("Type");
+        StartAnimation();
     }
 
     void Update()
@@ -32,6 +32,20 @@ public class DialogController : MonoBehaviour
         {
             StartCoroutine("Type");
         }
+    }
+
+    void StartAnimation()
+    {
+        textComponent.gameObject.SetActive(false);
+
+        var sequence = DOTween.Sequence();
+        sequence.Append(transform.DOScaleY(0, 0.3f).From().SetEase(Ease.OutQuad));
+        sequence.PrependInterval(1);
+        sequence.AppendCallback(() =>
+        {
+            textComponent.gameObject.SetActive(true);
+            StartCoroutine("Type");
+        });
     }
 
     IEnumerator Type()
@@ -63,6 +77,8 @@ public class DialogController : MonoBehaviour
                 );
             }
         }
+
+        textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Colors32);
 
         // "<link=wave>" animation
 
@@ -104,7 +120,7 @@ public class DialogController : MonoBehaviour
             }
         }
 
-        // Set to original colors in each time
+        // Restore original color of each vertice
 
         for (int i = 0; i < textInfo.characterCount; i++)
         {
@@ -161,7 +177,9 @@ public class DialogController : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
 
         dialogFinished = true;
-        arrowIcon.Show();
         dialogIndex++;
+
+        if (dialogIndex < dialogs.Length)
+            arrowIcon.Show();
     }
 }
