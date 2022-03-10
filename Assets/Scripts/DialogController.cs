@@ -40,6 +40,7 @@ public class DialogController : MonoBehaviour
         arrowIcon.Hide();
         textComponent.text = dialogs[dialogIndex].sentence;
         avatar.sprite = dialogs[dialogIndex].avatar;
+        DOTween.Kill(gameObject);
 
         textComponent.ForceMeshUpdate();
 
@@ -60,6 +61,46 @@ public class DialogController : MonoBehaviour
                     textInfo.meshInfo[i].colors32[j].b,
                     0
                 );
+            }
+        }
+
+        // "<link=wave>" animation
+
+        for (int i = 0; i < textInfo.linkCount; i++)
+        {
+            var link = textInfo.linkInfo[i];
+
+            if (link.GetLinkID() != "wave")
+                continue;
+
+            var firstIndex = link.linkTextfirstCharacterIndex;
+            var lastIndex = link.linkTextfirstCharacterIndex + link.linkTextLength;
+
+            for (int j = firstIndex; j < lastIndex; j++)
+            {
+                var charInfo = textComponent.textInfo.characterInfo[j];
+
+                if (!charInfo.isVisible)
+                    continue;
+
+                var vertexPosition = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+
+                for (int k = 0; k < 4; k++)
+                {
+                    var vertexIndex = charInfo.vertexIndex + k;
+                    var delay = (lastIndex - j) * 0.06f;
+
+                    DOTween.To(
+                        () => vertexPosition[vertexIndex] - charPositionAnimation / 2,
+                        x =>
+                        {
+                            vertexPosition[vertexIndex] = x;
+                            textComponent.UpdateVertexData(TMP_VertexDataUpdateFlags.Vertices);
+                        },
+                        vertexPosition[vertexIndex] + charPositionAnimation / 2,
+                        charSpeedAnimation * 3
+                    ).SetDelay(delay).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).SetId(gameObject);
+                }
             }
         }
 
